@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"sync"
 	"time"
 
@@ -22,25 +23,25 @@ func main() {
 
 // This is the background job that runs forever
 func backgroundWorker() {
-
+	redisConnection := os.Getenv("BN_REDIS_URL")
+	dbConnection := os.Getenv("BN_DB_URL")
 	var ctx = context.Background()
 	var WAIT_INTERVAL = (17 * time.Second)
 	var cursor uint64 = 0
 	var matchPattern = "tmvh-subscription-callback-api:*" // Pattern to match keys
 	var count = int64(100)                                // Limit to 100 keys per scan
 
-	fmt.Println("##### SUBSCRIPTION WORKER RUNNING #####")
+	fmt.Println("##### TMVH SUBSCRIPTION WORKER RUNNING #####")
 	//config redis pool
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379", // Change if needed
-		Password: "",               // No password by default
-		DB:       0,                // Default DB
-		PoolSize: 100,              //Connection pools
+		Addr:     redisConnection, // Change if needed
+		Password: "",              // No password by default
+		DB:       0,               // Default DB
+		PoolSize: 100,             //Connection pools
 	})
 
 	//config database pool
-	dsn := "host=localhost user=root password=11111111 dbname=cyberus_db port=5432 sslmode=disable TimeZone=Asia/Bangkok search_path=root@cyberus"
-	db, errDatabase := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, errDatabase := gorm.Open(postgres.Open(dbConnection), &gorm.Config{})
 	if errDatabase != nil {
 		log.Fatal("Failed to connect to database:", errDatabase)
 	}
