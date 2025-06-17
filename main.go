@@ -253,9 +253,9 @@ func threadWorker(id int, wg *sync.WaitGroup, jsonString string, rdb *redis.Clie
 		// Define parameters as a map
 		params := map[string]string{
 			"msisdn":     subscriptionData.Msisdn,
-			"operator":   subscriptionData.Shortcode, // Value with spaces
-			"tran_ref":   subscriptionData.Operator,  // Another value with spaces and special char
-			"short_code": subscriptionData.TranRef,
+			"short_code": subscriptionData.Shortcode, // Value with spaces
+			"operator":   subscriptionData.Operator,  // Another value with spaces and special char
+			"tran_ref":   subscriptionData.TranRef,
 			"action":     subscriptionData.Action,
 			"code":       subscriptionData.Code,
 			"desc":       subscriptionData.Desc,
