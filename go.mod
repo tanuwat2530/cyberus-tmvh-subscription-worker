@@ -3,6 +3,7 @@ module cyberus/tmvh-subscription-worker
 go 1.22.2
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/redis/go-redis/v9 v9.7.3
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.12

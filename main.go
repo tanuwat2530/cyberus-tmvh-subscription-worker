@@ -311,7 +311,7 @@ func threadWorker(id int, wg *sync.WaitGroup, jsonString string, rdb *redis.Clie
 
 	insertId := uuid.New()
 	logEntry := tmvh_subscription_logs{
-		ID:            insertId,
+		ID:            insertId.String(),
 		Action:        subscriptionData.Action,
 		Code:          subscriptionData.Code,
 		CyberusReturn: subscriptionData.ReturnStatus,
