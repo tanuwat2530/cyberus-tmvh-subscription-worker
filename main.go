@@ -282,12 +282,14 @@ func threadWorker(id int, wg *sync.WaitGroup, jsonString string, rdb *redis.Clie
 		resp, err := client.Get(paramTargetURL)
 		if err != nil {
 			fmt.Println("failed to make GET request to ", resp, err)
+			return nil
 		}
 		defer resp.Body.Close() // Ensure the response body is closed after reading
 
 		// Check the HTTP status code
 		if resp.StatusCode != http.StatusOK {
 			fmt.Println("received non-OK HTTP status for ", resp, resp.Status)
+			return nil
 		}
 	}
 
@@ -337,6 +339,7 @@ func threadWorker(id int, wg *sync.WaitGroup, jsonString string, rdb *redis.Clie
 	errSetRedis := rdb.Set(ctx, redis_set_key, jsonString, ttl).Err()
 	if errSetRedis != nil {
 		fmt.Println("Redis SET error:", errSetRedis)
+		return nil
 		//return fmt.Errorf("REDIS SET ERROR : " + errSetRedis.Error())
 	}
 
