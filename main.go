@@ -183,6 +183,7 @@ func threadWorker(id int, wg *sync.WaitGroup, jsonString string, rdb *redis.Clie
 	if errSubscriptionData != nil {
 		fmt.Println("JSON Marshal error : ", errSubscriptionData)
 		//return fmt.Errorf("JSON DECODE ERROR : " + errSubscriptionData.Error())
+		return nil
 	}
 
 	type PartnerData struct {
@@ -222,6 +223,7 @@ func threadWorker(id int, wg *sync.WaitGroup, jsonString string, rdb *redis.Clie
 	if errPartnerData != nil {
 		fmt.Println("partnerData : ", errPartnerData)
 		//return fmt.Errorf("partnerData : " + errPartnerData.Error())
+		return nil
 	}
 
 	partnerDataEntry := client_services{
@@ -331,6 +333,7 @@ func threadWorker(id int, wg *sync.WaitGroup, jsonString string, rdb *redis.Clie
 	if errInsertDB := db.Create(&logEntry).Error; errInsertDB != nil {
 		fmt.Println("ERROR INSERT : " + errInsertDB.Error())
 		//return fmt.Errorf(errInsertDB.Error())
+		return nil
 	}
 
 	redis_set_key := "tmvh-transaction-log-worker:" + subscriptionData.Media + ":" + subscriptionData.RefId
